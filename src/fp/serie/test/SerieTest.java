@@ -1,10 +1,5 @@
 package fp.serie.test;
 
-import java.time.LocalDate;
-
-import fp.common.SerieDeseada;
-import fp.serie.Serie;
-
 public class SerieTest {
 	
 	public static void main(String[] args) {
@@ -38,7 +33,7 @@ public class SerieTest {
 		System.out.println(s1.getPrime());
 		System.out.println(s1.getNota());
 		s1.setNota(9.8);
-		System.out.println(s1.getNota());;
+		System.out.println(s1.getNota());
 		
 		System.out.println(s1.toString());
 		System.out.println(serieBuena(s1, n));
@@ -46,6 +41,8 @@ public class SerieTest {
 		System.out.println(s1.getSeries());
 		s1.incorporaSerie("Okja");
 		System.out.println(s1.getSeries());
+		
+		leeSeries("../data/Datos.csv");
 	}
 
 	public static Boolean serieBuena(Serie s, SerieDeseada n  ) {
