@@ -1,17 +1,22 @@
 package fp.serie.test;
 
+import java.time.LocalDate;
+
+import fp.serie.Serie;
+import fp.serie.FactoriaSerie;
+
 public class SerieTest {
 	
 	public static void main(String[] args) {
 		SerieDeseada n = new SerieDeseada(4.0);
 		System.out.println(n);
+		
 		//Constructores
 		Serie s1 = new Serie ("The Irishman",2019, "18", LocalDate.of(2019, 10, 26), 
 				"Y", "N", 1.77);
 		System.out.println(s1);
 		Serie s2 = new Serie("Dangal", 9.86);
 		System.out.println(s2);
-		
 		
 		System.out.println(s1.getTitulo());
 		s1.setTitulo("David Attenborough: A Life on Our Planet");
@@ -33,7 +38,7 @@ public class SerieTest {
 		System.out.println(s1.getPrime());
 		System.out.println(s1.getNota());
 		s1.setNota(9.8);
-		System.out.println(s1.getNota());
+		System.out.println(s1.getNota());;
 		
 		System.out.println(s1.toString());
 		System.out.println(serieBuena(s1, n));

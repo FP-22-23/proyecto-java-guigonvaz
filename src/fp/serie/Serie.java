@@ -19,21 +19,20 @@ public class Serie {
 	private Double nota;
 	private Boolean netflix;
 	private Boolean prime;
-	private List<String> series;
 	
 	
 	//Constructores
 	public Serie(String titulo, Integer year, String edadRecomendada, LocalDate fEstreno, 
-			String netflix, String prime, Double nota) {
+			 Double nota, String netflix, String prime) {
 		Checkers.check("Nombre de título no válido",titulo != null );
 		this.titulo = titulo;
 		this.year = year;
 		this.edadRecomendada = edadRecomendada;
 		this.fEstreno = fEstreno;
-		this.netflix = parseaBoolean(netflix);
-		this.prime = parseaBoolean(prime);
 		Checkers.check("Error en la nota", nota>=0.0 && nota <=10.0);
 		this.nota = nota;
+		this.netflix = parseaBoolean(netflix);
+		this.prime = parseaBoolean(prime);
 		series = new LinkedList<String>();
 	}
 	
