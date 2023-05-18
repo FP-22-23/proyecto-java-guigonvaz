@@ -1,38 +1,57 @@
+package fp.serie;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-
-import fp.biblioteca.Libro;
-import fp.biblioteca.LibroImpl;
 import fp.utiles.Ficheros;
 
 public class FactoriaSerie {
 
-	public static List<Serie> leeSeries(String fichero){
-		
-		String msg = String.format("Error leyendo %s", fichero);
-		List<String> lineas = Ficheros.leeFichero(msg, fichero);
-		List<Serie> series = new ArrayList<Serie>();
-		lineas.remove(0);
-		for (String cad: lineas) {
-			series.add(cad);
-		}
-		
-		return series;
-	}
-
-	public static Serie leeSerie(String serie) {
-        String[] cad = serie.trim().split("\\s*;\\s*");
-        if (cad.length != 7) {
-            throw new IllegalArgumentException("La cadena no tiene el formato adecuado.");
+    // Método que recibe una cadena con el formato de las líneas del fichero CSV y devuelve un objeto Serie
+    public static Serie leeSerie(String linea) 
+    	throws Exception {
+        String[] campos = linea.split(";");
+        if (campos.length != 7) {
+            throw new Exception("Error de formato en la línea: " + linea);
         }
-        String titulo = cad[0];
-        Integer year = Integer.parseInt(cad[1]);
-        Integer edadRecomendada = Integer.parseInt(cad[2]);
-        Double nota = Double.parseDouble(cad[3]);
-        Boolean netflix = Boolean.parseBoolean(cad[4]);
-        Boolean prime = Boolean.parseBoolean(cad[5]);
-        LocalDate fEstreno = LocalDate(cad[6]);
-        Serie serie = new Serie(titulo, year, edadRecomendada, nota, netflix, prime, fEstreno);
-        return serie;
+        String titulo = campos[0];
+        Integer year = Integer.parseInt(campos[1]);
+        String edadRecomendada = campos[2];
+        Double nota = Double.parseDouble(campos[3]);
+        Boolean netflix = parseaBoolean(campos[4]);
+        Boolean prime = parseaBoolean(campos[5]);
+        LocalDate fEstreno = LocalDate.parse(campos[6], DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+        return new Serie(titulo, year, edadRecomendada, fEstreno, nota, netflix, prime);
     }
+
+    // Método que recibe una cadena con el nombre y ruta del fichero CSV, y devuelve una lista de objetos Serie
+    public static List<Serie> leeSeries(String fichero) 
+    	throws Exception {
+        String msg = String.format("Error leyendo %s", fichero);
+        List<String> lineas = Ficheros.leeFichero(msg, fichero);
+        List<Serie> series = new ArrayList<>();
+        lineas.remove(0);
+        for (String linea : lineas) {
+            Serie serie = leeSerie(linea);
+            series.add(serie);
+        }
+
+        return series;
+    }
+    
+    public static VideoClub crearVideoClubDesdeArchivo(String fichero) 
+    	throws Exception {
+        List<Serie> series = leeSeries(fichero);
+        return new VideoClub(series.stream());
+    }
+    
+    private static boolean parseaBoolean(String cad) {
+        Boolean res = false;
+        if (cad.equals("Y")) {
+        	res = true;
+        }
+        return res;
+    }
+ 
 }

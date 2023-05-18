@@ -1,11 +1,8 @@
 package fp.serie;
-
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-
 import fp.utiles.Checkers;
 
 
@@ -19,11 +16,11 @@ public class Serie {
 	private Double nota;
 	private Boolean netflix;
 	private Boolean prime;
-	
+	private List<String> series;
 	
 	//Constructores
 	public Serie(String titulo, Integer year, String edadRecomendada, LocalDate fEstreno, 
-			 Double nota, String netflix, String prime) {
+			 Double nota, Boolean netflix, Boolean prime) {
 		Checkers.check("Nombre de título no válido",titulo != null );
 		this.titulo = titulo;
 		this.year = year;
@@ -31,8 +28,8 @@ public class Serie {
 		this.fEstreno = fEstreno;
 		Checkers.check("Error en la nota", nota>=0.0 && nota <=10.0);
 		this.nota = nota;
-		this.netflix = parseaBoolean(netflix);
-		this.prime = parseaBoolean(prime);
+		this.netflix = netflix;
+		this.prime = prime;
 		series = new LinkedList<String>();
 	}
 	
@@ -72,7 +69,7 @@ public class Serie {
 		this.edadRecomendada = edadRecomendada;
 	}
 
-	public LocalDate getfEstreno() {
+	public LocalDate getFEstreno() {
 		return fEstreno;
 	}
 
@@ -127,14 +124,6 @@ public class Serie {
 		return res;
 	}
 	
-	public Boolean parseaBoolean (String s) {
-		Boolean res = false;
-		if (s.equals("Y")){
-			res = true;	
-		}
-		return res;
-	}
-	
 	//Otros métodos
 	
 	public String toString() {
@@ -170,15 +159,20 @@ public class Serie {
 				&& Objects.equals(titulo, other.titulo) && Objects.equals(year, other.year);
 	}
 	
+	public int compareTo(Serie s) {
+		int res = getTitulo().compareTo(s.getTitulo());
+		if (res == 0) {
+			res = getFEstreno().compareTo(s.getFEstreno());
+		}
+		return res;
+	}
 	
-	
-
-	
-	
-	
-	
-
-	
-	
-	
+	public boolean parseaBoolean(String cad) {
+        Boolean res = false;
+        if (cad.equals("Y")) {
+        	res = true;
+        }
+        return res;
+    }	
 }
+
