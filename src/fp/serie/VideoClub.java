@@ -21,13 +21,25 @@ public class VideoClub {
 
     public VideoClub(String titulo, Integer year, Double nota) {
         this.titulo = titulo;
+        if (titulo == null) {
+            throw new IllegalArgumentException("El título no puede ser nulo");
+        }
         this.year = year;
+        if (year<0) {
+            throw new IllegalArgumentException("El año tiene que ser positivo");
+        }
         this.nota = nota;
     }
 
     public VideoClub(String titulo, Integer year, Double nota, Collection<Serie> series) {
         this.titulo = titulo;
+        if (titulo == null) {
+            throw new IllegalArgumentException("El título no puede ser nulo");
+        }
         this.year = year;
+        if (year<0) {
+            throw new IllegalArgumentException("El año tiene que ser positivo");
+        }
         this.nota = nota;
         this.series = new ArrayList<Serie>(series);
     }
@@ -40,7 +52,13 @@ public class VideoClub {
         
         Serie firstSerie = serieList.get(0);
         this.titulo = firstSerie.getTitulo();
+        if (titulo == null) {
+            throw new IllegalArgumentException("El título no puede ser nulo");
+        }
         this.year = firstSerie.getYear();
+        if (year<0) {
+            throw new IllegalArgumentException("El año tiene que ser positivo");
+        }
         this.nota = firstSerie.getNota();
         this.series = new ArrayList<>(serieList);
     }
@@ -87,16 +105,16 @@ public class VideoClub {
 		this.nota = nota;
 	}
 	
-	public int numeroElementos() {
+	public int numeroSeries() {
         return series.size();
     }
 	
-    public void addElemento(Collection<Serie> elem) {
+    public void addSeries(Collection<Serie> elem) {
         series.addAll(elem);
     }
 
 
-    public void eliminarElemento(Serie elem) {
+    public void eliminarSerie(Serie elem) {
         series.remove(elem);
     }
 
@@ -199,7 +217,7 @@ public class VideoClub {
     	Comparator<Serie> y = Comparator.comparing(Serie::getYear);	
     	Comparator<Serie> m = Comparator.comparing(Serie::getNota);
     	return series.stream()
-    		.filter(s->s.getNetflix().equals("Y"))
+    		.filter(s->s.getNetflix().equals(true))
     		.sorted(y.reversed())
     		.sorted(m.reversed())
     		.limit(n)
@@ -223,8 +241,8 @@ public class VideoClub {
     }
     
     // 3. Serie con más nota por año
-    Comparator<Serie> c = Comparator.comparingDouble(Serie::getNota);
     public Map<Integer, Serie> getMejorSeriePorYear(){
+    	Comparator<Serie> c = Comparator.comparingDouble(Serie::getNota);
     	return series.stream()
     			.collect(Collectors.groupingBy(
     					Serie::getYear, Collectors.collectingAndThen(
@@ -247,6 +265,6 @@ public class VideoClub {
     	return numSeriesPorNota().entrySet().stream()
     			.filter(s-> s.getValue().equals(nRep))
     			.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-    }	
+    }
     
 }

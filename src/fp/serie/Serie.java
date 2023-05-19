@@ -78,16 +78,16 @@ public class Serie {
 	}
 
 	
-	public String getNetflix() {
-		return "La serie está en netflix :"+netflix;
+	public Boolean getNetflix() {
+		return netflix;
 	}
 
 	public Boolean setNetflix(Boolean netflix) {
 		return netflix;
 	}
 
-	public String  getPrime() {
-		return "La serie está en prime video :"+ prime;
+	public Boolean  getPrime() {
+		return  prime;
 	}
 
 	public void setPrime(Boolean prime) {
@@ -175,4 +175,3 @@ public class Serie {
         return res;
     }	
 }
-
